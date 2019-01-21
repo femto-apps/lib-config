@@ -1,7 +1,7 @@
 {
   "name": "@femto-host/config",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple utility programs that looks for and loads a config file.",
   "main": "index.js",
   "directories": {
     "test": "tests"
