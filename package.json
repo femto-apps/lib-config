@@ -1,5 +1,5 @@
 {
-  "name": "@femto-host/config",
+  "name": "@femto-apps/config",
   "version": "1.0.0",
   "description": "A simple utility programs that looks for and loads a config file.",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/femto-host/config.git"
+    "url": "git+https://github.com/femto-apps/config.git"
   },
   "keywords": [],
-  "author": "Codefined <github@femto.host>",
+  "author": "Codefined <github@femto.apps>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/femto-host/config/issues"
+    "url": "https://github.com/femto-apps/config/issues"
   },
-  "homepage": "https://github.com/femto-host/config#readme",
+  "homepage": "https://github.com/femto-apps/config#readme",
   "dependencies": {
     "app-root-path": "^2.1.0",
     "fs-jetpack": "^2.2.0",
