@@ -1,4 +1,6 @@
-const config = require('../index')
+const config = require('../index')()
+
+console.log(config)
 
 test('javascript', () => {
     expect(config.get('js.str')).toEqual('hello, world!')

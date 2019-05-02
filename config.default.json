@@ -1,13 +1,15 @@
 {
-    "json": {
+    "djson": {
         "bool": true,
         "str": "hello, world!",
         "number": 10,
         "array": [
             "a",
             "b",
-            "c"
-        ]
+            "c",
+            "d"
+        ],
+        "str2": "hello world"
     }
 }
 
