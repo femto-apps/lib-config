@@ -1,0 +1,5 @@
+{
+  "js": ["config.default.js", "config.js", "config/config.default.js", "config/config.js", "configs/config.default.js", "configs/config.js", "test-configs/config.default.js", "test-configs/config.js"], 
+  "json": ["config.default.json", "config.json", "config/config.default.json", "config/config.json", "configs/config.default.json", "configs/config.json", "test-configs/config.default.json", "test-configs/config.json"], 
+  "hjson": ["config.default.hjson", "config.hjson", "config/config.default.hjson", "config/config.hjson", "configs/config.default.hjson", "configs/config.hjson", "test-configs/config.default.hjson", "test-configs/config.hjson"]
+}

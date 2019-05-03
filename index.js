@@ -6,58 +6,68 @@ const _ = require('lodash')
 
 const root = jetpack.cwd(appRoot)
 
-let defaultJsonFiles = ['config.default.json', 'config.json', 'config/config.default.json', 'config/config.json']
-let defaultJsFiles = ['config.default.js', 'config.js', 'config/config.default.js', 'config/config.js']
-let defaultHjsonFiles = ['config.default.hjson', 'config.hjson', 'config/config.default.hjson', 'config/config.hjson']
+const defaultConfigs = require('./default-config-files')
 
-function testArray(arr, def) {
-	if (Array.isArray(arr)) {
-		if (arr.length > 0) {
-			return arr
-		}
-		else {
-			return def
-		}
-	}
-	else {
-		return def
-	}
+function addJsJson(paths, files) {
+  for (let file of files) {
+    if (root.exists(file)) {
+      Object.assign(paths, require(path.join(appRoot, file)))
+    }
+  }
+  return paths
+}
+
+function addHjson(paths, files) {
+  for (let file of files) {
+    if (root.exists(file)) {
+      Object.assign(paths, hjson.parse(root.read(file)))
+    }
+  }
+  return paths
 }
 
 module.exports = function(jsonFiles, jsFiles, hjsonFiles) {
-	jsonFiles = testArray(jsonFiles, defaultJsonFiles)
-	jsFiles = testArray(jsFiles, defaultJsFiles)
-	hjsonFiles = testArray(hjsonFiles, defaultHjsonFiles)
+  jsonFiles = Array.isArray(jsonFiles) ? jsonFiles : defaultConfigs.json
+  jsFiles = Array.isArray(jsFiles) ? jsFiles : defaultConfigs.js
+  hjsonFiles = Array.isArray(hjsonFiles) ? hjsonFiles : defaultConfigs.hjson
 
-	let fileSet1 = jsonFiles.concat(jsFiles)
-	let fileSet2 = hjsonFiles
+  let fileSet1 = jsonFiles.concat(jsFiles)
+  let fileSet2 = hjsonFiles
 
-	let config = {}
+  let paths = {}
 
-	for (let file of fileSet1) {
-	    if (root.exists(file)) {
-	        config = Object.assign(config, require(path.join(appRoot, file)))
-	    }
-	}
+  paths = addJsJson(paths, fileSet1)
+  paths = addHjson(paths, fileSet2)
 
-	for (let file of fileSet2) {
-	    if (root.exists(file)) {
-	        config = Object.assign(config, hjson.parse(root.read(file)))
-	    }
-	}
+  let config = {
+    paths: paths
+  }
 
-	/*
-	 * Get a configuration option.  Return undefined if the configuration option is not found.
-	 *
-	 * @example <caption>Simple config lookup</caption>
-	 * const config = require('@femto-host/config')
-	 * config.get('path.to.get')
-	 */
-	config.get = function(path) {
-	    return _.get(config, path)
-	}
+  /*
+   * Get a configuration option.  Return undefined if the configuration option is not found.
+   *
+   * @example <caption>Simple config lookup</caption>
+   * const config = require('@femto-host/config')
+   * config.get('path.to.get')
+   */
+  config.get = function(path, def) {
+    return _.get(config.paths, path)
+  }
 
-	return config
+  config.addJson = function(conf, files) {
+    addJsJson(conf.paths, Array.isArray(files) ? files : [])
+  }
+
+  config.addJs = function(conf, files) {
+    addJsJson(conf.paths, Array.isArray(files) ? files : [])
+  }
+
+  config.addHjson = function(conf, files) {
+    addHjson(conf.paths, Array.isArray(files) ? files : [])
+  }
+
+  console.log(config)
+  return config
 }
 
 

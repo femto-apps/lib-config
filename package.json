@@ -2,21 +2,26 @@
   "name": "@femto-apps/config",
   "version": "1.1.0",
   "description": "A simple utility programs that looks for and loads a config file.",
+  "keywords": ["config", "default-config"], 
+  "author": "Codefined <github@femto.apps>",
+  "license": "MIT",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
+  "jest": {
+    "displayName": "femto-apps-config-tests", 
+    "testPathIgnorePatterns": ["/node_modules/", "server.test.js"],
+    "coverageDirectory": "coverage"
+  },
   "scripts": {
     "test": "jest",
-    "web-test": "node ./tests2/server.test.js"
+    "web-test": "node ./tests/server.test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/femto-apps/config.git"
   },
-  "keywords": [],
-  "author": "Codefined <github@femto.apps>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/femto-apps/config/issues"
   },
