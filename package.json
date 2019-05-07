@@ -2,7 +2,10 @@
   "name": "@femto-apps/config",
   "version": "2.0.0",
   "description": "A simple utility programs that looks for and loads a config file.",
-  "keywords": ["config", "default-config"], 
+  "keywords": [
+    "config",
+    "default-config"
+  ],
   "author": "Femto Apps <github@femto.host>",
   "license": "MIT",
   "main": "index.js",
@@ -10,8 +13,11 @@
     "test": "tests"
   },
   "jest": {
-    "displayName": "femto-apps-config-tests", 
-    "testPathIgnorePatterns": ["/node_modules/", "server.test.js"],
+    "displayName": "femto-apps-config-tests",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "server.test.js"
+    ],
     "coverageDirectory": "coverage"
   },
   "scripts": {
