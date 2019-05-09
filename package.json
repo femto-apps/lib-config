@@ -1,6 +1,6 @@
 {
   "name": "@femto-apps/config",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "description": "A simple utility programs that looks for and loads a config file.",
   "keywords": [
     "config",

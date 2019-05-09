@@ -26,7 +26,7 @@ class Config {
   }
 
   get(path) {
-    return _.get(config.paths, path)
+    return _.get(this.config, path)
   }
 
   loadFolder(folder) {
