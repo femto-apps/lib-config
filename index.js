@@ -6,70 +6,79 @@ const _ = require('lodash')
 
 const root = jetpack.cwd(appRoot)
 
-const defaultConfigs = require('./default-config-files')
+/*
+ * You are able to either have a single file, called `config.(json|hjson|js)`
+ * or an unlimited number of files within a `configs` folder.
+ * 
+ * You can further have default values, implemented by adding `.default` just
+ * before the suffix.
+ */
 
-function addJsJson(paths, files) {
-  for (let file of files) {
-    if (root.exists(file)) {
-      Object.assign(paths, require(path.join(appRoot, file)))
-    }
-  }
-  return paths
-}
+class Config {
+  constructor() {
+    this.config = {}
 
-function addHjson(paths, files) {
-  for (let file of files) {
-    if (root.exists(file)) {
-      Object.assign(paths, hjson.parse(root.read(file)))
-    }
-  }
-  return paths
-}
+    // first, search for a top level config file
+    this.load('config')
 
-module.exports = function(jsonFiles, jsFiles, hjsonFiles) {
-  jsonFiles = Array.isArray(jsonFiles) ? jsonFiles : defaultConfigs.json
-  jsFiles = Array.isArray(jsFiles) ? jsFiles : defaultConfigs.js
-  hjsonFiles = Array.isArray(hjsonFiles) ? hjsonFiles : defaultConfigs.hjson
-
-  let fileSet1 = jsonFiles.concat(jsFiles)
-  let fileSet2 = hjsonFiles
-
-  let paths = {}
-
-  paths = addJsJson(paths, fileSet1)
-  paths = addHjson(paths, fileSet2)
-
-  let config = {
-    paths: paths
+    // then we should search for everything in the 'configs' directory
+    this.loadFolder('configs')
   }
 
-  /*
-   * Get a configuration option.  Return undefined if the configuration option is not found.
-   *
-   * @example <caption>Simple config lookup</caption>
-   * const config = require('@femto-host/config')
-   * config.get('path.to.get')
-   */
-  config.get = function(path, def) {
+  get(path) {
     return _.get(config.paths, path)
   }
 
-  config.addJson = function(conf, files) {
-    addJsJson(conf.paths, Array.isArray(files) ? files : [])
+  loadFolder(folder) {
+    let files = root.list(folder)
+
+    // if folder doesn't exist
+    if (!files) return
+
+    files = files
+      .map(file => file.split('.').slice(0, -1))
+      .map(file => file.length > 1 && file[file.length - 1] === 'default' ? file.slice(0, -1) : file)
+      .map(file => file.join('.'))
+    
+    for (let file of _.uniq(files)) {
+      this.load(path.join(folder, file), file)
+    }
+    
+    return this
   }
 
-  config.addJs = function(conf, files) {
-    addJsJson(conf.paths, Array.isArray(files) ? files : [])
+  load(file, prefix) {
+    // load a file based on its name, starting with default
+    // and then continuing onto the normal file
+
+    // load default first, then normal
+    for (let type of ['.default', '']) {
+      for (let extension of ['hjson', 'json', 'js']) {
+        let qualifiedFile = `${file}${type}.${extension}`
+        if (root.exists(qualifiedFile)) {
+          let contents = this.loadRaw(qualifiedFile, extension)
+
+          if (prefix) {
+            contents = _.set({}, prefix, contents)
+          }
+
+          this.config = _.merge(this.config, contents)
+        }
+      }
+    }
+
+    return this
   }
 
-  config.addHjson = function(conf, files) {
-    addHjson(conf.paths, Array.isArray(files) ? files : [])
+  loadRaw(file, extension) {
+    switch(extension) {
+      case 'js':
+      case 'json':
+        return require(path.join(appRoot, file))
+      case 'hjson':
+        return hjson.parse(root.read(file))
+    }
   }
-
-  console.log(config)
-  return config
 }
 
-
-
-
+module.exports = new Config()
