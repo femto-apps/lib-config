@@ -1,10 +1,7 @@
-const appRoot = require('app-root-path').toString()
 const jetpack = require('fs-jetpack')
 const hjson = require('hjson')
 const path = require('path')
 const _ = require('lodash')
-
-const root = jetpack.cwd(appRoot)
 
 /*
  * You are able to either have a single file, called `config.(json|hjson|js)`
@@ -16,7 +13,10 @@ const root = jetpack.cwd(appRoot)
 
 class Config {
   constructor() {
+    const appRoot = path.dirname(module.parent.filename)
+
     this.config = {}
+    this.root = jetpack.cwd(appRoot)
 
     // first, search for a top level config file
     this.load('config')
@@ -30,7 +30,7 @@ class Config {
   }
 
   loadFolder(folder) {
-    let files = root.list(folder)
+    let files = this.root.list(folder)
 
     // if folder doesn't exist
     if (!files) return
@@ -55,7 +55,7 @@ class Config {
     for (let type of ['.default', '']) {
       for (let extension of ['hjson', 'json', 'js']) {
         let qualifiedFile = `${file}${type}.${extension}`
-        if (root.exists(qualifiedFile)) {
+        if (this.root.exists(qualifiedFile)) {
           let contents = this.loadRaw(qualifiedFile, extension)
 
           if (prefix) {
@@ -76,7 +76,7 @@ class Config {
       case 'json':
         return require(path.join(appRoot, file))
       case 'hjson':
-        return hjson.parse(root.read(file))
+        return hjson.parse(this.root.read(file))
     }
   }
 }
