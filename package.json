@@ -1,10 +1,12 @@
 {
   "name": "@femto-apps/config",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A simple utility programs that looks for and loads a config file.",
   "keywords": [
     "config",
-    "default-config"
+    "default-config",
+    "configs",
+    "default=configs"
   ],
   "author": "Femto Apps <github@femto.host>",
   "license": "MIT",
@@ -12,34 +14,21 @@
   "directories": {
     "test": "tests"
   },
-  "jest": {
-    "displayName": "femto-apps-config-tests",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "server.test.js"
-    ],
-    "coverageDirectory": "coverage"
-  },
   "scripts": {
-    "test": "jest",
-    "web-test": "node ./tests/server.test.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/femto-apps/config.git"
+    "url": "git+https://github.com/femto-apps/lib-config.git"
   },
   "bugs": {
-    "url": "https://github.com/femto-apps/config/issues"
+    "url": "https://github.com/femto-apps/lib-config/issues"
   },
-  "homepage": "https://github.com/femto-apps/config#readme",
+  "homepage": "https://github.com/femto-apps/lib-config",
   "dependencies": {
-    "app-root-path": "^3.0.0",
     "fs-jetpack": "^3.1.0",
     "hjson": "^3.2.1",
     "lodash": "^4.17.20"
   },
-  "devDependencies": {
-    "express": "^4.17.1",
-    "jest": "^26.4.2"
-  }
+  "devDependencies": {}
 }
