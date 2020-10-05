@@ -1,12 +1,15 @@
 {
   "name": "@femto-apps/config",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "A simple utility programs that looks for and loads a config file.",
   "keywords": [
     "config",
     "default-config",
     "configs",
-    "default=configs"
+    "default-configs",
+    "configuration",
+    "config-files",
+    "configuration-files"
   ],
   "author": "Femto Apps <github@femto.host>",
   "license": "MIT",

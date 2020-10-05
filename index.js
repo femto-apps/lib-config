@@ -4,7 +4,7 @@ const path = require('path')
 const _ = require('lodash')
 
 /*
- * You are able to either have a single file, called `config.(json|hjson|js)`
+ * You are able to have either a single file, called `config.(json|hjson|js)`
  * or an unlimited number of files within a `configs` folder.
  * 
  * You can further have default values, implemented by adding `.default` just
@@ -49,7 +49,7 @@ class Config {
 
   load(file, prefix) {
     // load a file based on its name, starting with default
-    // and then continuing onto the normal file
+    // and then continuing on to the normal file
 
     // load default first, then normal
     for (let type of ['.default', '']) {
@@ -74,10 +74,24 @@ class Config {
     switch(extension) {
       case 'js':
       case 'json':
-        return require(path.join(appRoot, file))
+        return require(path.join(this.root.cwd(), file))
       case 'hjson':
         return hjson.parse(this.root.read(file))
     }
+  }
+
+  remove(path) {
+    this.config = _.omit(this.config, path)
+    return this
+  }
+
+  values() {
+    return _.values(this.config)
+  }
+
+  set(path, value) {
+    this.config = _.set(this.config, path, value)
+    return this
   }
 }
 
