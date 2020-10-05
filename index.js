@@ -23,6 +23,8 @@ class Config {
 
     // then we should search for everything in the 'configs' directory
     this.loadFolder('configs')
+
+    this.outDir = undefined
   }
 
   get(path) {
@@ -92,6 +94,15 @@ class Config {
   set(path, value) {
     this.config = _.set(this.config, path, value)
     return this
+  }
+
+  setOutDir(dirPath) {
+    this.outDir = jetpack.cwd(dirPath)
+    return this.outDir
+  }
+
+  save(file) {
+    jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
   }
 }
 

@@ -19,4 +19,5 @@ console.log(config.get('this.path.does.not.exist'))
 
 console.log(config.values())
 
-
+config.setOutDir('./')
+config.save('config3')
