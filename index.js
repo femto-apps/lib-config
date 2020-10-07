@@ -102,7 +102,9 @@ class Config {
   }
 
   save(file) {
-    jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
+    if (!(file.includes('.'))) jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
+    else if (file.split('.').slice(0, -1) === '.hjson') jetpack.write(path.join(this.outDir.cwd()))
+    else jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
   }
 }
 
