@@ -25,6 +25,7 @@ class Config {
     this.loadFolder('configs')
 
     this.outDir = undefined
+    this.files = {}
   }
 
   get(path) {
@@ -78,7 +79,7 @@ class Config {
       case 'json':
         return require(path.join(this.root.cwd(), file))
       case 'hjson':
-        return hjson.parse(this.root.read(file))
+        return hjson.rt.parse(this.root.read(file))
     }
   }
 
