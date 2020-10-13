@@ -18,14 +18,14 @@ class Config {
     this.config = {}
     this.root = jetpack.cwd(appRoot)
 
-    //this.outDir = undefined
-    this.files = {}
-
     // first, search for a top level config file
     this.load('config')
 
     // then we should search for everything in the 'configs' directory
     this.loadFolder('configs')
+
+    this.outDir = undefined
+    this.files = {}
   }
 
   get(path) {
@@ -63,10 +63,6 @@ class Config {
 
           if (prefix) {
             contents = _.set({}, prefix, contents)
-            this.files[qualifiedFile] = prefix
-          }
-          else {
-            this.files[qualifiedFile] = '.'
           }
 
           this.config = _.merge(this.config, contents)
@@ -101,39 +97,15 @@ class Config {
     return this
   }
 
-  /*
   setOutDir(dirPath) {
     this.outDir = jetpack.cwd(dirPath)
     return this.outDir
   }
-  */
 
-  /*
   save(file) {
     if (!(file.includes('.'))) jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
     else if (file.split('.').slice(0, -1) === '.hjson') jetpack.write(path.join(this.outDir.cwd()))
     else jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
-  }
-  */
-
-  saveRaw(filename, extension, file) {
-    switch(extension) {
-      case 'js':
-      case 'json':
-        jetpack.write(path.join(this.root.ced(), filename), file)
-        break
-      case 'hjson':
-        jetpack.write(path.join(this.root.cwd(), filename), hjson.rt.stringify(file))
-        break
-    }
-  }
-
-  saveFile(filename, extension) {
-    if (!(_.has(this.files, filename))) return
-    let file = loadRaw(filename, extension)
-    let file2 = loadRaw(filename, extension)
-    _.merge(file, this.config)
-    saveRaw(filename, extension, file)
   }
 }
 
