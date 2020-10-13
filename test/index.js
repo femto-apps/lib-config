@@ -5,6 +5,7 @@ console.log(config.get('bye'))
 
 config.load('config2')
 config.load('config2', 'cf2')
+config.load('config3', 'cf3')
 
 console.log(config.get('a'))
 console.log(config.get('d[0]'))
@@ -19,5 +20,8 @@ console.log(config.get('this.path.does.not.exist'))
 
 console.log(config.values())
 
+config.set('cf2.a', 'bbb')
+
 config.setOutDir('./')
-config.save('config3')
+config.save('config4.json')
+config.save('config4.hjson')

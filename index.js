@@ -78,7 +78,7 @@ class Config {
       case 'json':
         return require(path.join(this.root.cwd(), file))
       case 'hjson':
-        return hjson.parse(this.root.read(file))
+        return hjson.rt.parse(this.root.read(file))
     }
   }
 
@@ -103,8 +103,8 @@ class Config {
 
   save(file) {
     if (!(file.includes('.'))) jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
-    else if (file.split('.').slice(0, -1) === '.hjson') jetpack.write(path.join(this.outDir.cwd()))
-    else jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
+    else if (file.split('.').slice(0, -1) === 'hjson') jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
+    else jetpack.write(path.join(this.outDir.cwd(), file), this.config)
   }
 }
 

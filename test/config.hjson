@@ -1,3 +1,10 @@
 {
     hello: from config
+    // This is a comment for 'h'
+    h: {
+    	a: [1, 2, 3]
+    	b: ['4', '5', '6']
+    }
+    # This is a hash comment
+    hash: octothorpe
 }
