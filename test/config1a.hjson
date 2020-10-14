@@ -1,6 +1,6 @@
 {
   "bye": "from default config",
-  "hello": "from config",
+  "hello": "from the config 1 HJSON file",
   "h": {
     "a": [
       1,
