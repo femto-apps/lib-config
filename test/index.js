@@ -3,6 +3,8 @@ const config = require('../')
 console.log(config.get('hello'))
 console.log(config.get('bye'))
 
+
+
 config.set('hello', 'from the config 1 HJSON file')
 
 config.setOutDir('./')
@@ -30,3 +32,4 @@ config.set('cf2.a', 'bbb')
 
 config.save('config1a.json')
 config.save('config1a.hjson')
+
