@@ -1,12 +1,14 @@
 {
   "bye": "from default config",
-  "hello": "from the config 1 HJSON file",
+  "hello": "from config",
+  // h is below 
   "h": {
     "a": [
       1,
       2,
       3
     ],
+    # This is a hash-style comment 
     "b": [
       "4",
       "5",

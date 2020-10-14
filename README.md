@@ -1,9 +1,21 @@
 # Config Loader
 
-Looks for configuration file such as `config.js`, `config.json` and `config.hjson` in the top level directory, in the `config` directory, in the `configs` directory and in the `test-configs` directory.  It first attempts to load `config.default.js`, `config.default.json` and `config.default.hjson` in the aforementioned directories in case the non-default files cannot be found.  Usage:
+## Descciption 
 
-```javascript
+ By default, this module lets you have either a single file, called `config.(json|hjson|js)` or an unlimited number of files within a `configs` folder.
+ 
+ You can further have default values, implemented by adding `.default` just before the suffix.
+
+ Alternate config files can be loaded afterwards. 
+
+ ## Usage 
+
+```JavaScript
 const config = require('@femto-host/config')
 
 config.get('path.to.option[0]')
 ```
+
+## License 
+
+This project is licensed under a MIT license. See the [LICENSE](LICENSE "LICENSE") file for more information. 
