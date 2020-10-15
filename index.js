@@ -3,6 +3,8 @@ const hjson = require('hjson')
 const path = require('path')
 const _ = require('lodash')
 
+const deepMerge = require('deepMerge')
+
 /*
  * You are able to have either a single file, called `config.(json|hjson|js)`
  * or an unlimited number of files within a `configs` folder.
@@ -116,6 +118,10 @@ class Config {
   }
   */
 
+  getFiles() {
+    return this.files
+  }
+
   saveRaw(filename, extension, file) {
     switch(extension) {
       case 'js':
@@ -128,11 +134,14 @@ class Config {
     }
   }
 
+  saveNewFile(filename, extension) {
+    saveRaw(filename, extension, this.config)
+  }
+
   saveFile(filename, extension) {
     if (!(_.has(this.files, filename))) return
     let file = loadRaw(filename, extension)
-    let file2 = loadRaw(filename, extension)
-    _.merge(file, this.config)
+    deepMerge(file, this.config)
     saveRaw(filename, extension, file)
   }
 }
