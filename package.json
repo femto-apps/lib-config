@@ -19,7 +19,8 @@
   },
   "scripts": {
     "test": "cd test && node index.js && cd ..",
-    "prettify": "npx prettier -w ."
+    "prettify": "npx prettier -w .",
+    "prettier_check": "npx prettier -c ."
   },
   "repository": {
     "type": "git",
