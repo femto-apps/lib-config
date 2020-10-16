@@ -18,7 +18,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "cd test && node index.js && cd .."
+    "test": "cd test && node index.js && cd ..",
+    "prettify": "npx prettier -w ."
   },
   "repository": {
     "type": "git",
