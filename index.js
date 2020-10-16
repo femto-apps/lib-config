@@ -8,7 +8,7 @@ const deepMerge = require('./deepMerge')
 /*
  * You are able to have either a single file, called `config.(json|hjson|js)`
  * or an unlimited number of files within a `configs` folder.
- * 
+ *
  * You can further have default values, implemented by adding `.default` just
  * before the suffix.
  */
@@ -41,14 +41,14 @@ class Config {
     if (!files) return
 
     files = files
-      .map(file => file.split('.').slice(0, -1))
-      .map(file => file.length > 1 && file[file.length - 1] === 'default' ? file.slice(0, -1) : file)
-      .map(file => file.join('.'))
-    
+      .map((file) => file.split('.').slice(0, -1))
+      .map((file) => (file.length > 1 && file[file.length - 1] === 'default' ? file.slice(0, -1) : file))
+      .map((file) => file.join('.'))
+
     for (let file of _.uniq(files)) {
       this.load(path.join(folder, file), file)
     }
-    
+
     return this
   }
 
@@ -66,8 +66,7 @@ class Config {
           if (prefix) {
             contents = _.set({}, prefix, contents)
             this.files[qualifiedFile] = prefix
-          }
-          else {
+          } else {
             this.files[qualifiedFile] = '.'
           }
 
@@ -80,7 +79,7 @@ class Config {
   }
 
   loadRaw(file, extension) {
-    switch(extension) {
+    switch (extension) {
       case 'js':
       case 'json': {
         return require(path.join(this.root.cwd(), file))
@@ -105,27 +104,12 @@ class Config {
     return this
   }
 
-  /*
-  setOutDir(dirPath) {
-    this.outDir = jetpack.cwd(dirPath)
-    return this.outDir
-  }
-  */
-
-  /*
-  save(file) {
-    if (!(file.includes('.'))) jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
-    else if (file.split('.').slice(0, -1) === '.hjson') jetpack.write(path.join(this.outDir.cwd()))
-    else jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
-  }
-  */
-
   getFiles() {
     return this.files
   }
 
   saveRaw(filename, extension, file) {
-    switch(extension) {
+    switch (extension) {
       case 'js':
         jetpack.write(path.join(this.root.cwd(), filename), 'module.exports = ')
         jetpack.append(path.join(this.root.cwd(), filename), JSON.stringify(file, null, 2))
@@ -146,8 +130,8 @@ class Config {
   }
 
   saveFile(filename, extension, prefix) {
-    if (!(_.has(this.files, filename))) return
-    // Not === to catch both null and undefined 
+    if (!_.has(this.files, filename)) return
+    // Not === to catch both null and undefined
     if (prefix == undefined) prefix = this.files[filename]
     let file = this.loadRaw(filename, extension)
     deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
