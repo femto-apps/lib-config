@@ -1,6 +1,7 @@
 const config = require('../')
 const deepMerge = require('../deepMerge')
 
+/*
 let d = Date.now()
 console.log(d)
 let a = {
@@ -36,10 +37,13 @@ let b = {
 }
 
 console.log(deepMerge(a, b, {addToDestination: false, addToDestinationArray: true, overwriteWithNull: false, overwriteWithUndefined: true}))
+*/
 
-/*
+//*
 console.log(config.get('hello'))
 console.log(config.get('bye'))
+
+config.set('hello', 'hello from an updated config')
 
 config.load('config2')
 config.load('config2', 'cf2')
@@ -57,6 +61,11 @@ console.log(config.get('this.path.does.not.exist'))
 
 console.log(config.values())
 
+config.saveFile('config.hjson', 'hjson')
+config.saveFile('config2.js', 'js')
+
+config.saveNewFile('config4.hjson', 'hjson')
+
 //config.setOutDir('./')
 //config.save('config3')
-*/
+//*/

@@ -9,12 +9,11 @@ module.exports = function deepMergeIf(destination, source, preferences) {
       destination[i] = deepMergeIf(destinationValue, sourceValue, options)
       continue
     }
-    //console.log(Array.isArray(destination), i, options.addToDestinationArray)
     if (((_.has(destination, i)) || (options.addToDestinationArray && (Array.isArray(destination))) || (options.addToDestination && !(Array.isArray(destination)))) 
     	&& (options.overwriteWithUndefined || source[i] !== undefined || (Array.isArray(destination))) 
     	&& (options.overwriteWithNull || source[i] !== null || (Array.isArray(destination)))) {
-    	//console.log(i)
-    	_.set(destination, i, source[i]) }
+    		_.set(destination, i, source[i]) 
+    	}
   }
   return destination
 }

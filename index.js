@@ -3,7 +3,7 @@ const hjson = require('hjson')
 const path = require('path')
 const _ = require('lodash')
 
-const deepMerge = require('deepMerge')
+const deepMerge = require('./deepMerge')
 
 /*
  * You are able to have either a single file, called `config.(json|hjson|js)`
@@ -82,10 +82,12 @@ class Config {
   loadRaw(file, extension) {
     switch(extension) {
       case 'js':
-      case 'json':
+      case 'json': {
         return require(path.join(this.root.cwd(), file))
-      case 'hjson':
+      }
+      case 'hjson': {
         return hjson.rt.parse(this.root.read(file))
+      }
     }
   }
 
@@ -125,24 +127,31 @@ class Config {
   saveRaw(filename, extension, file) {
     switch(extension) {
       case 'js':
-      case 'json':
-        jetpack.write(path.join(this.root.ced(), filename), file)
+        jetpack.write(path.join(this.root.cwd(), filename), 'module.exports = ')
+        jetpack.append(path.join(this.root.cwd(), filename), JSON.stringify(file, null, 2))
         break
-      case 'hjson':
+      case 'json': {
+        jetpack.write(path.join(this.root.cwd(), filename), file)
+        break
+      }
+      case 'hjson': {
         jetpack.write(path.join(this.root.cwd(), filename), hjson.rt.stringify(file))
         break
+      }
     }
   }
 
   saveNewFile(filename, extension) {
-    saveRaw(filename, extension, this.config)
+    this.saveRaw(filename, extension, this.config)
   }
 
-  saveFile(filename, extension) {
+  saveFile(filename, extension, prefix) {
     if (!(_.has(this.files, filename))) return
-    let file = loadRaw(filename, extension)
-    deepMerge(file, this.config)
-    saveRaw(filename, extension, file)
+    // Not === to catch both null and undefined 
+    if (prefix == undefined) prefix = this.files[filename]
+    let file = this.loadRaw(filename, extension)
+    deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
+    this.saveRaw(filename, extension, file)
   }
 }
 

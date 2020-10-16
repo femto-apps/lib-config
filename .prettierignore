@@ -1,0 +1,15 @@
+# Node modules 
+node_modules
+
+# HJSON files - Prettier does nto support these 
+*.hjson
+
+# Markdown files - not prt of the main codebase 
+*.md
+
+# Prettier config 
+.prettierrc
+.prettierrc.*
+
+# Sublime text files 
+*.sublime-*
