@@ -1,5 +1,11 @@
-# Node modules 
+# Node 
 node_modules
+.npmignore
+package-lock.json
+package.json
+
+# Git
+.gitignore
 
 # HJSON files - Prettier does nto support these 
 *.hjson
