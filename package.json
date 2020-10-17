@@ -15,9 +15,10 @@
   "license": "MIT",
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
+    "postinstall": "node-git-hooks", 
     "test": "cd test && node index.js && cd ..",
     "prettify": "npx prettier -w .",
     "prettier_check": "npx prettier -c ."
@@ -36,6 +37,7 @@
     "lodash": "^4.17.20"
   },
   "devDependencies": {
+    "node-git-hooks": "^1.0.4",
     "prettier": "2.1.2"
   }
 }

@@ -80,7 +80,7 @@ class Config {
     return this
   }
 
-  // Private - not documented 
+  // Private - not documented
   loadRaw(file, extension) {
     switch (extension) {
       case 'js':
@@ -128,7 +128,7 @@ class Config {
     }
   }
 
-  // Private - not documented 
+  // Private - not documented
   saveNewFile(filename) {
     this.saveRaw(filename, this.getFileExtension(filename), this.config)
   }
@@ -143,7 +143,7 @@ class Config {
     this.saveRaw(filename, extension, file)
   }
 
-  // Private - not documented 
+  // Private - not documented
   getFileExtension(filename) {
     return filename.split('.').pop()
   }
