@@ -21,7 +21,8 @@
     "postinstall": "node-git-hooks",
     "test": "cd test && node index.js && cd ..",
     "prettify": "npx prettier -w .",
-    "prettier_check": "npx prettier -c ."
+    "prettier": "npx prettier -c .",
+    "hooks": "node-git-hooks"
   },
   "repository": {
     "type": "git",
