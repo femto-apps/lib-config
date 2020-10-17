@@ -1,4 +1,5 @@
 {
   // Hello 
   hello: from config
+  hello2: from config
 }

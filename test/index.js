@@ -1,4 +1,5 @@
 const config = require('../')
+
 const deepMerge = require('../deepMerge')
 
 /*
@@ -61,10 +62,14 @@ console.log(config.get('this.path.does.not.exist'))
 
 console.log(config.values())
 
-config.saveFile('config.hjson', 'hjson')
-config.saveFile('config2.js', 'js')
+console.log(config.getFiles())
 
-config.saveNewFile('config4.hjson', 'hjson')
+config.remove('hello')
+
+config.saveFile('config.hjson')
+config.saveFile('config2.js')
+
+config.saveNewFile('config4.hjson')
 
 //config.setOutDir('./')
 //config.save('config3')

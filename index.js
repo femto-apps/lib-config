@@ -19,8 +19,6 @@ class Config {
 
     this.config = {}
     this.root = jetpack.cwd(appRoot)
-
-    //this.outDir = undefined
     this.files = {}
 
     // first, search for a top level config file
@@ -32,6 +30,10 @@ class Config {
 
   get(path) {
     return _.get(this.config, path)
+  }
+
+  getAll() {
+    return this.config
   }
 
   loadFolder(folder) {
@@ -78,6 +80,7 @@ class Config {
     return this
   }
 
+  // Private - not documented 
   loadRaw(file, extension) {
     switch (extension) {
       case 'js':
@@ -125,17 +128,24 @@ class Config {
     }
   }
 
-  saveNewFile(filename, extension) {
-    this.saveRaw(filename, extension, this.config)
+  // Private - not documented 
+  saveNewFile(filename) {
+    this.saveRaw(filename, this.getFileExtension(filename), this.config)
   }
 
-  saveFile(filename, extension, prefix) {
+  saveFile(filename, prefix) {
     if (!_.has(this.files, filename)) return
     // Not === to catch both null and undefined
     if (prefix == undefined) prefix = this.files[filename]
+    let extension = this.getFileExtension(filename)
     let file = this.loadRaw(filename, extension)
     deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
     this.saveRaw(filename, extension, file)
+  }
+
+  // Private - not documented 
+  getFileExtension(filename) {
+    return filename.split('.').pop()
   }
 }
 

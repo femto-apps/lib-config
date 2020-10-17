@@ -1,6 +1,6 @@
 {
   bye: from default config
-  hello: hello from an updated config
+  hello2: from config
   a: b
   c: 34
   d:

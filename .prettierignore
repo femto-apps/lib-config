@@ -7,15 +7,11 @@ package.json
 # Git
 .gitignore
 
-# HJSON files - Prettier does nto support these 
+# HJSON files - Prettier does not support these 
 *.hjson
 
-# Markdown files - not prt of the main codebase 
-*.md
-
 # Prettier config 
-.prettierrc
-.prettierrc.*
+.prettierrc*
 
 # Sublime text files 
 *.sublime-*
