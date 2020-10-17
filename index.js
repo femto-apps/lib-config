@@ -145,7 +145,7 @@ class Config {
 
   // Private - not documented
   getFileExtension(filename) {
-    return filename.split('.').pop();
+    return filename.split('.').pop()
   }
 }
 
