@@ -18,7 +18,7 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "node-git-hooks", 
+    "postinstall": "node-git-hooks",
     "test": "cd test && node index.js && cd ..",
     "prettify": "npx prettier -w .",
     "prettier_check": "npx prettier -c ."
