@@ -51,7 +51,7 @@ config.remove('path.to.value.to.remove')
 
 This module uses `fs-jetpack`, `hjson` and `lodash` as dependencies.
 
-For development, `prettier` is also required.
+For development, `prettier` and `node-git-hooks` are also required.
 
 ## License
 

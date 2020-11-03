@@ -111,6 +111,7 @@ class Config {
     return this.files
   }
 
+  // Private - not documented
   saveRaw(filename, extension, file) {
     switch (extension) {
       case 'js':
@@ -128,7 +129,6 @@ class Config {
     }
   }
 
-  // Private - not documented
   saveNewFile(filename) {
     this.saveRaw(filename, this.getFileExtension(filename), this.config)
   }
