@@ -1,0 +1,11 @@
+{
+  config1:
+  {
+    a: b
+    c: d
+  }
+  config2:
+  {
+    hello: i am a string in config2.hjson
+  }
+}

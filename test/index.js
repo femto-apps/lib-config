@@ -1,5 +1,7 @@
-const config = require('../')
+// Testing file index
+const assert = require('assert').strict
 
+const config = require('../')
 const deepMerge = require('../deepMerge')
 
 /*
@@ -40,7 +42,7 @@ let b = {
 console.log(deepMerge(a, b, {addToDestination: false, addToDestinationArray: true, overwriteWithNull: false, overwriteWithUndefined: true}))
 */
 
-//*
+/*
 console.log(config.get('hello'))
 console.log(config.get('bye'))
 
@@ -71,8 +73,16 @@ config.saveFile('config2.js')
 
 config.saveNewFile('config4.hjson')
 
-
 //config.setOutDir('./')
 //config.save('config3')
 //
-//*/
+*/
+
+//console.log(config.root)
+//console.log(config.getFiles())
+
+console.log('Files: ', config.getFiles(), '\n')
+console.log('Keys: ', config.keys(), '\n')
+config.saveFile('configs\\config2.hjson', null, '..\\backups')
+config.saveNewFile('config.hjson', true)
+console.log(_.isEqual({ a: 3, b: [5, 6], c: { 'a': 'B', 'C': 'D' } }, { a: 3, b: [5, 6], c: { 'a': 'B', 'C': 'D' } }))

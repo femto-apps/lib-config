@@ -13,6 +13,11 @@ const deepMerge = require('./deepMerge')
  * before the suffix.
  */
 
+/*
+ * Note: filename implies a full filename of file path whereas file implies a file or a filename with no path or extension
+ * Note: backup implies a relative path to a backup where isBackup implies a Boolean specifying whether a file is a backup or not
+ */
+
 class Config {
   constructor() {
     const appRoot = path.dirname(module.parent.filename)
@@ -81,14 +86,14 @@ class Config {
   }
 
   // Private - not documented
-  loadRaw(file, extension) {
+  loadRaw(filename, extension) {
     switch (extension) {
       case 'js':
       case 'json': {
-        return require(path.join(this.root.cwd(), file))
+        return require(path.join(this.root.cwd(), filename))
       }
       case 'hjson': {
-        return hjson.rt.parse(this.root.read(file))
+        return hjson.rt.parse(this.root.read(filename))
       }
     }
   }
@@ -98,8 +103,12 @@ class Config {
     return this
   }
 
-  values() {
-    return _.values(this.config)
+  values(path) {
+    return _.values(path ? _.get(this.config, path) : this.config)
+  }
+
+  keys(path) {
+    return _.keys(path ? _.get(this.config, path) : this.config)
   }
 
   set(path, value) {
@@ -112,40 +121,47 @@ class Config {
   }
 
   // Private - not documented
-  saveRaw(filename, extension, file) {
+  saveRaw(filename, pathModifier, extension, file) {
     switch (extension) {
       case 'js':
-        jetpack.write(path.join(this.root.cwd(), filename), 'module.exports = ')
-        jetpack.append(path.join(this.root.cwd(), filename), JSON.stringify(file, null, 2))
+        jetpack.write(path.join(this.root.cwd(), path.dirname(filename), pathModifier, path.basename(filename)), 'module.exports = ')
+        jetpack.append(path.join(this.root.cwd(), path.dirname(filename), pathModifier, path.basename(filename)), JSON.stringify(file, null, 2))
         break
       case 'json': {
-        jetpack.write(path.join(this.root.cwd(), filename), file)
+        jetpack.write(path.join(this.root.cwd(), path.dirname(filename), pathModifier, path.basename(filename)), file)
         break
       }
       case 'hjson': {
-        jetpack.write(path.join(this.root.cwd(), filename), hjson.rt.stringify(file))
+        jetpack.write(path.join(this.root.cwd(), path.dirname(filename), pathModifier, path.basename(filename)), hjson.rt.stringify(file))
         break
       }
     }
   }
 
-  saveNewFile(filename) {
-    this.saveRaw(filename, this.getFileExtension(filename), this.config)
+  saveNewFile(filename, isBackup) {
+    if (isBackup === true) filename = this.makeBackupFilename(filename)
+    this.saveRaw(filename, '', this.getFileExtension(filename), this.config)
   }
 
-  saveFile(filename, prefix) {
+  saveFile(filename, prefix, backup) {
     if (!_.has(this.files, filename)) return
     // Not === to catch both null and undefined
     if (prefix == undefined) prefix = this.files[filename]
     let extension = this.getFileExtension(filename)
     let file = this.loadRaw(filename, extension)
     deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
-    this.saveRaw(filename, extension, file)
+    if (backup) filename = this.makeBackupFilename(filename)
+    this.saveRaw(filename, typeof backup === 'string' || backup instanceof String ? backup : '', extension, file)
   }
 
   // Private - not documented
   getFileExtension(filename) {
     return filename.split('.').pop()
+  }
+
+  // Private - not documented
+  makeBackupFilename(filename) {
+    return filename.slice(0, filename.lastIndexOf('.')) + '.backup' + filename.slice(filename.lastIndexOf('.'))
   }
 }
 
