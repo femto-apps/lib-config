@@ -1,6 +1,4 @@
-// Testing file index
-const assert = require('assert').strict
-
+// Testing index file
 const config = require('../')
 const deepMerge = require('../deepMerge')
 

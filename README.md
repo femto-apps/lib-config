@@ -28,8 +28,8 @@ config.get('path.to.option[0]')
 // Set a config value.
 config.set('prefix.path.to.option', 'value')
 
-// Update all the config values stored in the specified file.
-config.save('config2.hjson')
+// Update all the config values stored in the specified file. File extensions are ignored, so if config2.hjson and config2.js are present, the values from both files will be saved in the selected file.
+config.saveFile('config2.hjson')
 
 // Save the entire configuration to the specified file.
 config.saveNewFile('newFile.json')

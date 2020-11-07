@@ -14,7 +14,7 @@ const deepMerge = require('./deepMerge')
  */
 
 /*
- * Note: filename implies a full filename of file path whereas file implies a file or a filename with no path or extension
+ * Note: filename implies a full filename or file path whereas file implies a file or a filename with no path or extension
  * Note: backup implies a relative path to a backup where isBackup implies a Boolean specifying whether a file is a backup or not
  */
 
@@ -143,12 +143,16 @@ class Config {
     this.saveRaw(filename, '', this.getFileExtension(filename), this.config)
   }
 
-  saveFile(filename, prefix, backup) {
+  saveFile(filename, prefix, backup, withDefault) {
     if (!_.has(this.files, filename)) return
     // Not === to catch both null and undefined
     if (prefix == undefined) prefix = this.files[filename]
     let extension = this.getFileExtension(filename)
     let file = this.loadRaw(filename, extension)
+    if (withDefault) {
+      let defaultFile = this.loadRaw(this.makeDefault(filename), extension)
+      deepMerge(file, defaultFile, { addToDestination: true })
+    }
     deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
     if (backup) filename = this.makeBackupFilename(filename)
     this.saveRaw(filename, typeof backup === 'string' || backup instanceof String ? backup : '', extension, file)
@@ -162,6 +166,14 @@ class Config {
   // Private - not documented
   makeBackupFilename(filename) {
     return filename.slice(0, filename.lastIndexOf('.')) + '.backup' + filename.slice(filename.lastIndexOf('.'))
+  }
+
+  // Private - not documented
+  makeDefault(filename) {
+    filenameParts = filename.split('.')
+    filenameParts.push(filenameParts[filenameParts.length - 1])
+    filenameParts[filenameParts.length - 2] = 'default'
+    return filenameParts.join('.')
   }
 }
 
