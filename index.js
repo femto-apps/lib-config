@@ -150,7 +150,9 @@ class Config {
     let extension = this.getFileExtension(filename)
     let file = this.loadRaw(filename, extension)
     if (withDefault) {
-      let defaultFile = this.loadRaw(this.makeDefault(filename), extension)
+      //let defaultFilename = this.makeDefault(filename)
+      let defaultFilename = 'configs\\config2.default.hjson'
+      let defaultFile = this.loadRaw(defaultFilename, extension)
       deepMerge(file, defaultFile, { addToDestination: true })
     }
     deepMerge(file, prefix === '.' ? this.config : _.get(this.config, prefix))
@@ -170,7 +172,7 @@ class Config {
 
   // Private - not documented
   makeDefault(filename) {
-    filenameParts = filename.split('.')
+    let filenameParts = filename.split('.')
     filenameParts.push(filenameParts[filenameParts.length - 1])
     filenameParts[filenameParts.length - 2] = 'default'
     return filenameParts.join('.')

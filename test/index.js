@@ -2,6 +2,20 @@
 const config = require('../')
 const deepMerge = require('../deepMerge')
 
+let tags = []
+let results = {}
+
+function test(tag, from, to) {
+  tag = String(tag)
+  let fullTag = tag
+  let i = 0
+  while (fullTag in tags) {
+    fullTag = tag + '_' + String(i++)
+  }
+  console.log(fullTag, ':', from, '\n')
+  results[fullTag] = _.isEqual(from, to)
+}
+
 /*
 let d = Date.now()
 console.log(d)
@@ -79,8 +93,24 @@ config.saveNewFile('config4.hjson')
 //console.log(config.root)
 //console.log(config.getFiles())
 
-console.log('Files: ', config.getFiles(), '\n')
-console.log('Keys: ', config.keys(), '\n')
-config.saveFile('configs\\config2.hjson', null, '..\\backups')
+test('Files', config.getFiles(), {
+  'configs\\config1.default.hjson': 'config1',
+  'configs\\config1.default.json': 'config1',
+  'configs\\config1.default.js': 'config1',
+  'configs\\config1.hjson': 'config1',
+  'configs\\config1.json': 'config1',
+  'configs\\config1.js': 'config1',
+  'configs\\config2.hjson': 'config2'
+})
+
+test('Keys', config.keys(), ['config1', 'config2'])
+
+// Suspected bug in HJSON when fourth parameter is true
+config.saveFile('configs\\config2.hjson', null, '..\\backups', false)
 config.saveNewFile('config.hjson', true)
-console.log(_.isEqual({ a: 3, b: [5, 6], c: { 'a': 'B', 'C': 'D' } }, { a: 3, b: [5, 6], c: { 'a': 'B', 'C': 'D' } }))
+
+console.log(config.getAll())
+
+config.set('config1.i.j', 'k2')
+
+console.log(results)
