@@ -4,7 +4,7 @@ const path = require('path')
 const _ = require('lodash')
 
 /*
- * You are able to either have a single file, called `config.(json|hjson|js)`
+ * You are able to have either a single file, called `config.(json|hjson|js)`
  * or an unlimited number of files within a `configs` folder.
  * 
  * You can further have default values, implemented by adding `.default` just
@@ -23,6 +23,8 @@ class Config {
 
     // then we should search for everything in the 'configs' directory
     this.loadFolder('configs')
+
+    this.outDir = undefined
   }
 
   get(path) {
@@ -49,7 +51,7 @@ class Config {
 
   load(file, prefix) {
     // load a file based on its name, starting with default
-    // and then continuing onto the normal file
+    // and then continuing on to the normal file
 
     // load default first, then normal
     for (let type of ['.default', '']) {
@@ -74,10 +76,35 @@ class Config {
     switch(extension) {
       case 'js':
       case 'json':
-        return require(path.join(appRoot, file))
+        return require(path.join(this.root.cwd(), file))
       case 'hjson':
-        return hjson.parse(this.root.read(file))
+        return hjson.rt.parse(this.root.read(file))
     }
+  }
+
+  remove(path) {
+    this.config = _.omit(this.config, path)
+    return this
+  }
+
+  values() {
+    return _.values(this.config)
+  }
+
+  set(path, value) {
+    this.config = _.set(this.config, path, value)
+    return this
+  }
+
+  setOutDir(dirPath) {
+    this.outDir = jetpack.cwd(dirPath)
+    return this.outDir
+  }
+
+  save(file) {
+    if (!(file.includes('.'))) jetpack.write(path.join(this.outDir.cwd(), file + '.json'), this.config)
+    else if (file.split('.').slice(0, -1) === 'hjson') jetpack.write(path.join(this.outDir.cwd(), file), hjson.rt.stringify(this.config))
+    else jetpack.write(path.join(this.outDir.cwd(), file), this.config)
   }
 }
 
